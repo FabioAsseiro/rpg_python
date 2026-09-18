@@ -25,21 +25,6 @@ for i in range(qtd):
     player = Player(name, hp, gold)
     player_list.append(player)
 
-# Teste para adicionar a arma
-espada = Item("Espada do jogador", 15, 10,0, "Espada")
-faca = Item("Faca do jogador", 15, 10,0, "Faca")
-anel = Item("Anel do jogador", 0, 10,10,"Anel")
-player_list[0].add_item_inventario(espada)
-player_list[0].equipar(espada)
-player_list[0].add_item_inventario(faca)
-player_list[0].add_item_inventario(anel)
-player_list[0].equipar(faca)
-
-
-def mostrar_inventario(i):
-    inventario = player_list[i].mostrar_inventario()
-    print(inventario)
-
 while True:
 
     for i in range(qtd):
@@ -60,6 +45,9 @@ while True:
 
             HP: {playerAtual.hp}
             Gold: {playerAtual.gold}
+            
+            Arma: {playerAtual.arma.nome if playerAtual.arma else "Nenhuma"}
+            Anel: {playerAtual.anel.nome if playerAtual.anel else "Nenhuma"}
 
             [1] - Atacar
             [2] - Loja
@@ -86,7 +74,7 @@ while True:
                 break
 
             elif option == 4:
-                mostrar_inventario(i)
+                playerAtual.mostrar_inventario()
                 break
 
             elif option == 5:
