@@ -1,12 +1,12 @@
 import random
 
-from Player.item import Item
+from Event.shop import showShop, creatShop
 from Player.player import Player
 from Event.combate import combate
-from Event.descanso import heal_Life
+from Event.descanso import heal_life
 
 
-turn = 100
+turn = 1
 player_list: list[Player] = []
 playerAtual = 0
 
@@ -21,9 +21,13 @@ while True:
 for i in range(qtd):
     name = input(f'Qual nome do Player {i + 1}? ')
     hp = 100
-    gold = random.randint(15, 30)
-    player = Player(name, hp, gold)
+    danobase = random.randint(10, 15)
+    gold = 500 #random.randint(15, 30)
+    player = Player(name, hp,danobase, gold)
     player_list.append(player)
+
+
+loja = creatShop(turn)
 
 while True:
 
@@ -45,6 +49,7 @@ while True:
 
             HP: {playerAtual.hp}
             Gold: {playerAtual.gold}
+            Danobase: {playerAtual.danobase}
             
             Arma: {playerAtual.arma.nome if playerAtual.arma else "Nenhuma"}
             Anel: {playerAtual.anel.nome if playerAtual.anel else "Nenhuma"}
@@ -66,16 +71,15 @@ while True:
                 break
 
             elif option == 2:
-                print('Mercado')
-                break
+                showShop(loja, playerAtual)
 
             elif option == 3:
-                heal_Life(playerAtual, turn)
+                heal_life(playerAtual, turn)
                 break
 
             elif option == 4:
                 playerAtual.mostrar_inventario()
-                break
+
 
             elif option == 5:
                 print('Explorar')
@@ -85,5 +89,6 @@ while True:
                 print("Digite um numero correto")
 
     turn += 1
+    creatShop(turn)
 
 

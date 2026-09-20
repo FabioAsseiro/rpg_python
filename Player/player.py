@@ -2,10 +2,10 @@ from .item import Item
 
 
 class Player:
-    def __init__(self, nome: str, hp: int, gold: int):
+    def __init__(self, nome: str, hp: int,danobase:int, gold: int):
         self.name = nome
         self.hp = hp
-        self.danobase = 0
+        self.danobase = danobase
         self.agility = 0
         self.level = 1
         self.xp = 0
@@ -27,22 +27,13 @@ class Player:
             return
 
         for i, item in enumerate(self.inventario):
-            equipado = bool
-            equipadostr = ""
+            equipado = (
+                    item == self.arma
+                    or item == self.anel
+                    or item == self.armadura
+            )
 
-            if item.tipo == "arma" and self.arma == item:
-                equipado = True
-                equipadostr = " - EQUIPADO"
-
-            elif item.tipo == "anel" and self.anel == item:
-                equipado = True
-                equipadostr = " - EQUIPADO"
-
-            elif item.tipo == "armadura" and self.arma == item:
-                equipado = True
-                equipadostr = " - EQUIPADO"
-
-            print(f"[{i}] - {item.nome}{equipadostr}")
+            print(f'[{i}] - {item.nome}{" - EQUIPADO" if equipado else ""}')
 
         option = input("Qual equipamento quer ver? Use *sair* para sair: ").strip()
 
@@ -128,6 +119,6 @@ class Player:
 
         if int(option) == 0:
             if equipado:
-                self.desequipar(item)
+                self.equipar(item)
             else:
                 self.equipar(item)

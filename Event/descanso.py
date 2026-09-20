@@ -3,7 +3,7 @@ import random
 from Player.player import Player
 
 
-def heal_Life(playerAtual: Player, turn: int):
+def heal_life(playerAtual: Player, turn: int):
     if turn > 10:
         heal_Life=random.randint(10, int((turn * 1.5 )))
     else:
