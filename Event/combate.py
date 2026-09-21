@@ -17,9 +17,6 @@ def combate(playerAtual: Player, player_list: list[Player], qtd: int):
             damage : int = playerAtual.danobase
             shieldAlvo : int = 0
 
-            if playerAtual.anel is not None:
-                damage += playerAtual.anel.damage
-
             if playerAtual.arma is not None:
                 damage += playerAtual.arma.damage
 
@@ -33,5 +30,7 @@ def combate(playerAtual: Player, player_list: list[Player], qtd: int):
             print('Coloque um numero valido')
     print(
         f'{playerAtual.name} atacou o {player_list[alvo].name} e tirou {damage}, vida atual é {player_list[alvo].hp}'
+    )
+    print(
         f'\nA armadura do {player_list[alvo].name} evitou {shieldAlvo} de dano' if player_list[alvo].armadura is not None else ''
     )

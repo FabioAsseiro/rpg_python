@@ -21,8 +21,8 @@ while True:
 for i in range(qtd):
     name = input(f'Qual nome do Player {i + 1}? ')
     hp = 100
-    danobase = random.randint(10, 15)
-    gold = 500 #random.randint(15, 30)
+    danobase = 10
+    gold = random.randint(15, 30)
     player = Player(name, hp,danobase, gold)
     player_list.append(player)
 
@@ -52,6 +52,7 @@ while True:
             Danobase: {playerAtual.danobase}
             
             Arma: {playerAtual.arma.nome if playerAtual.arma else "Nenhuma"}
+            Armadura: {playerAtual.armadura.nome if playerAtual.armadura else "Nenhuma"}
             Anel: {playerAtual.anel.nome if playerAtual.anel else "Nenhuma"}
 
             [1] - Atacar
@@ -71,7 +72,7 @@ while True:
                 break
 
             elif option == 2:
-                showShop(loja, playerAtual)
+                showShop(loja, playerAtual, turn)
 
             elif option == 3:
                 heal_life(playerAtual, turn)
@@ -88,7 +89,8 @@ while True:
             else:
                 print("Digite um numero correto")
 
+    loja.clear()
     turn += 1
-    creatShop(turn)
+    loja = creatShop(turn)
 
 

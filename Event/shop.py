@@ -146,15 +146,15 @@ def createItem(turn):
 
     # Define o tipo do item
     tipo = random.choice([
-        "Arma",
-        "Armadura",
-        "Anel"
+        "arma",
+        "armadura",
+        "anel"
     ])
 
     # Define a raridade
     raridade = random.choices(
-        ["Comum", "Incomum", "Raro", "Épico"],
-        weights=[60, 25, 10, 5]
+        ["Comum", "Incomum", "Raro", "Épico", "Lendário"],
+        weights=[60, 25, 9, 5, 1]
     )[0]
 
     # Define o multiplicador da raridade
@@ -162,14 +162,15 @@ def createItem(turn):
         "Comum": 1,
         "Incomum": 1.25,
         "Raro": 1.5,
-        "Épico": 2
+        "Épico": 2,
+        "Lendário": 2.5
     }
 
     multiplicador = multiplicadores[raridade]
 
     # Valor base dos itens baseado no turno
     valor_base = random.randint(
-        turn // 2,
+        max(1,turn // 2),
         int(turn * 1.75)
     )
 
@@ -179,7 +180,7 @@ def createItem(turn):
     # ARMA
     # =========================
 
-    if tipo == "Arma":
+    if tipo == "arma":
 
         nome = random.choice(armas)
 
@@ -211,7 +212,7 @@ def createItem(turn):
     # ARMADURA
     # =========================
 
-    elif tipo == "Armadura":
+    elif tipo == "armadura":
 
         nome = random.choice(armaduras)
 
@@ -243,7 +244,7 @@ def createItem(turn):
     # ANEL
     # =========================
 
-    elif tipo == "Anel":
+    elif tipo == "anel":
 
         nome = random.choice(aneis)
 
@@ -284,6 +285,7 @@ def buyShop(item: Item, playerAtual: Player):
 
         playerAtual.gold -= item.value
         playerAtual.add_item_inventario(item)
+        playerAtual.equipar(item)
 
         print(
             f"O item {item.nome} foi comprado com sucesso!\n"
@@ -294,7 +296,7 @@ def buyShop(item: Item, playerAtual: Player):
         print("Você não tem gold suficiente.")
 
 
-def showShop(loja: list, playerAtual: Player):
+def showShop(loja: list, playerAtual: Player, turn: int):
 
     for i, item in enumerate(loja):
 
@@ -314,7 +316,8 @@ def showShop(loja: list, playerAtual: Player):
             f"{item.nome} | "
             f"{tipoInfo} | "
             f"{item.raridade} | "
-            f"{item.value} ouro"
+            f"{item.value} ouro | "
+            f"{item.tipo}"
         )
 
     option = int(
@@ -332,6 +335,8 @@ def showShop(loja: list, playerAtual: Player):
         item_escolhido = loja[option]
 
         buyShop(item_escolhido, playerAtual)
+        loja.pop(option)
+        loja.append(createItem(turn))
 
     else:
         print("Opção inválida.")

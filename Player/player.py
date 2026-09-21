@@ -1,4 +1,4 @@
-from .item import Item
+from .item import Item, Arma, Armadura, Anel
 
 
 class Player:
@@ -13,9 +13,9 @@ class Player:
         self.inventario = []
 
         # slots
-        self.arma: Item | None = None
-        self.anel: Item | None = None
-        self.armadura: Item | None = None
+        self.arma: Arma | None = None
+        self.anel: Anel | None = None
+        self.armadura: Armadura | None = None
 
     def add_item_inventario(self, item: Item):
         print(f"{item.nome} foi adicionado com sucesso")
@@ -47,20 +47,20 @@ class Player:
             print(f"{item.nome} não está no inventário")
             return
 
-        if item.tipo == "arma":
+        if item.tipo == "Arma":
             if self.arma:
                 print(f"Desequipando {self.arma.nome}")
 
             self.arma = item
 
-        elif item.tipo == "anel":
+        elif item.tipo == "Anel":
             if self.anel:
                 print(f"Desequipando {self.anel.nome}")
 
             self.anel = item
 
-        elif item.tipo == "armadura":
-            if self.arma:
+        elif item.tipo == "Armadura":
+            if self.armadura:
                 print(f"Desequipando {self.armadura.nome}")
 
             self.armadura = item
@@ -102,14 +102,22 @@ class Player:
                 or item == self.anel
                 or item == self.armadura
         )
+        if isinstance(item, Arma):
+            atribute = f"Dano: {item.damage}"
+        elif isinstance(item, Armadura):
+            atribute = f"Armadura: {item.shield}"
+        elif isinstance(item, Anel):
+            atribute = f"Agility: {item.agility}"
+        else:
+            atribute = ""
+
         option = input(f'''
                    ====================================
                                {item.nome}
                    ====================================
 
                    valor: {item.value}
-                   Dano: {item.damage}
-                   Agility: {item.agility}
+                   {atribute}
                    Raridade: {item.raridade}
                    Tipo: {item.tipo}
 
@@ -119,6 +127,6 @@ class Player:
 
         if int(option) == 0:
             if equipado:
-                self.equipar(item)
+                self.desequipar(item)
             else:
                 self.equipar(item)
