@@ -1,5 +1,7 @@
 import random
+from rich import print
 
+from Event.explorar import explorar
 from Event.shop import showShop, creatShop
 from Player.player import Player
 from Event.combate import combate
@@ -19,11 +21,11 @@ while True:
         break
 
 for i in range(qtd):
-    name = input(f'Qual nome do Player {i + 1}? ')
+    nome = input(f'Qual nome do Player {i + 1}? ')
     hp = 100
     danobase = 10
     gold = random.randint(15, 30)
-    player = Player(name, hp,danobase, gold)
+    player = Player(nome, hp,danobase, gold)
     player_list.append(player)
 
 
@@ -45,7 +47,7 @@ while True:
 
         print(
             f'''
-            Vez do jogador {playerAtual.name} 
+            [bold]Vez do jogador {playerAtual.nome} [/]
 
             HP: {playerAtual.hp}
             Gold: {playerAtual.gold}
@@ -65,7 +67,7 @@ while True:
 
         while True:
 
-            option = int(input(f"Qual ação do {playerAtual.name}? "))
+            option = int(input(f"Qual ação do {playerAtual.nome}? "))
 
             if option == 1:
                 combate(playerAtual, player_list, qtd)
@@ -83,12 +85,25 @@ while True:
 
 
             elif option == 5:
-                print('Explorar')
+                explorar(turn, playerAtual)
                 break
 
             else:
                 print("Digite um numero correto")
 
+    for player in player_list:
+        if player.hp <= 0:
+            print(f"{player.nome} morreu e não está mais jogando")
+
+    player_list = [
+        player for player in player_list
+        if player.hp > 0
+    ]
+
+    qtd = len(player_list)
+
+    if qtd <= 1:
+        break
     loja.clear()
     turn += 1
     loja = creatShop(turn)

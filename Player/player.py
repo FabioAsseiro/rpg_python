@@ -1,9 +1,10 @@
 from .item import Item, Arma, Armadura, Anel
+from rich import print
 
 
 class Player:
     def __init__(self, nome: str, hp: int,danobase:int, gold: int):
-        self.name = nome
+        self.nome = nome
         self.hp = hp
         self.danobase = danobase
         self.agility = 0
@@ -21,7 +22,19 @@ class Player:
         print(f"{item.nome} foi adicionado com sucesso")
         self.inventario.append(item)
 
+    def addGold(self, gold):
+        self.gold += gold
+
     def mostrar_inventario(self):
+
+        raridade = {
+            "Comum": "white",
+            "Incomum": "green",
+            "Raro": "blue",
+            "Épico": "purple",
+            "Lendário": "orange",
+        }
+
         if not self.inventario:
             print("Inventário vazio")
             return
@@ -33,12 +46,12 @@ class Player:
                     or item == self.armadura
             )
 
-            print(f'[{i}] - {item.nome}{" - EQUIPADO" if equipado else ""}')
+            print(f'[{raridade[item.raridade]}][{i}] - {item.nome}[/]{" - EQUIPADO" if equipado else ""}')
 
         option = input("Qual equipamento quer ver? Use *sair* para sair: ").strip()
 
         if option.lower() == "sair":
-            print(f"{self.name} saiu com sucesso")
+            print(f"{self.nome} saiu com sucesso")
         else:
             self.mostrar_item(self.inventario[int(option)])
 
@@ -65,7 +78,7 @@ class Player:
 
             self.armadura = item
 
-        print(f"{self.name} equipou o {item.nome} com sucesso")
+        print(f"{self.nome} equipou o {item.nome} com sucesso")
 
     def desequipar(self, item: Item):
         if item not in self.inventario:

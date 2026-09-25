@@ -1,4 +1,5 @@
 import random
+from rich import print
 
 from Player.item import Arma, Armadura, Anel, Item
 from Player.player import Player
@@ -198,7 +199,7 @@ def createItem(turn):
             int(turn * 1.75)
         )
 
-        damage = int(damage_base * multiplicador)
+        damage = max(1, int(damage_base * multiplicador))
 
         return Arma(
             nome=nome,
@@ -230,7 +231,7 @@ def createItem(turn):
             int(turn * 1.75)
         )
 
-        shield = int(shield_base * multiplicador)
+        shield = max(1,int(shield_base * multiplicador))
 
         return Armadura(
             nome=nome,
@@ -261,7 +262,7 @@ def createItem(turn):
             1,
             max(1, turn // 2)
         )
-        agility = int(agility_base * multiplicador)
+        agility = max(1,int(agility_base * multiplicador))
 
         return Anel(
             nome=nome,
@@ -300,6 +301,14 @@ def showShop(loja: list, playerAtual: Player, turn: int):
 
     for i, item in enumerate(loja):
 
+        raridade = {
+            "Comum": "white",
+            "Incomum": "green",
+            "Raro": "blue",
+            "Épico": "purple",
+            "Lendário": "Yellow",
+        }
+
         tipoInfo = ""
 
         if item.tipo == "Arma":
@@ -312,12 +321,7 @@ def showShop(loja: list, playerAtual: Player, turn: int):
             tipoInfo = f"{item.agility} de agilidade"
 
         print(
-            f"{i} - "
-            f"{item.nome} | "
-            f"{tipoInfo} | "
-            f"{item.raridade} | "
-            f"{item.value} ouro | "
-            f"{item.tipo}"
+            f"[{raridade[item.raridade]}]{i} - [bold]{item.nome}[/] | {tipoInfo} | {item.raridade} | {item.value} ouro | {item.tipo}[/]"
         )
 
     option = int(
