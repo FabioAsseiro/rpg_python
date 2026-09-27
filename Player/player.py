@@ -143,3 +143,12 @@ class Player:
                 self.desequipar(item)
             else:
                 self.equipar(item)
+
+    def up_lvl(self):
+        while self.xp >= self.level * 100:
+            xp_necessario = self.level * 100
+
+            self.xp -= xp_necessario
+            self.level += 1
+
+            print(f"Parabéns, {self.nome} subiu de nível para o {self.level}!")

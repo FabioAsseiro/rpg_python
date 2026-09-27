@@ -143,7 +143,7 @@ locais = [
 ]
 
 
-def createItem(turn):
+def createItem(turn, raridade = None):
 
     # Define o tipo do item
     tipo = random.choice([
@@ -153,10 +153,11 @@ def createItem(turn):
     ])
 
     # Define a raridade
-    raridade = random.choices(
-        ["Comum", "Incomum", "Raro", "Épico", "Lendário"],
-        weights=[60, 25, 9, 5, 1]
-    )[0]
+    if raridade is None:
+        raridade = random.choices(
+            ["Comum", "Incomum", "Raro", "Épico", "Lendário"],
+            weights=[60, 25, 9, 5, 1]
+        )[0]
 
     # Define o multiplicador da raridade
     multiplicadores = {

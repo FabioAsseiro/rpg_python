@@ -76,7 +76,10 @@ def combateExplorar(playerAtual: Player, monstro: Monstro, turn):
             # Verifica se o monstro morreu
             if monstro.hp <= 0:
                 monstro.hp = 0
-
+                print(f"{playerAtual.nome} ganhou {monstro.xp} de XP")
+                playerAtual.xp += monstro.xp
+                playerAtual.up_lvl()
+                print(f"XP Atual: {playerAtual.xp}")
                 print(f"{monstro.nome} foi derrotado!")
 
                 if random.randint(1, 5) == 5:

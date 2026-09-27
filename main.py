@@ -1,11 +1,44 @@
 import random
 from rich import print
 
+from Event.evento import evento_gold, evento_arma, evento_xp
 from Event.explorar import explorar
 from Event.shop import showShop, creatShop
 from Player.player import Player
 from Event.combate import combate
 from Event.descanso import heal_life
+
+
+
+
+def evento_aletorio(qtd, player_list):
+    if random.randint(1, 100)> 20:
+        return
+
+    print(f'''
+        ==================================================
+                        EVENTO ALEATÓRIO
+        ==================================================
+    ''')
+
+    tipo_evento = random.choice([
+        "Individual",
+        "Coletivo"
+    ])
+
+    if tipo_evento == "Individual":
+        player = random.choice(player_list)
+        print(f"O jogador escolhido foi {player.nome}")
+        evento = random.choice(
+            [
+                lambda :evento_gold(player),
+                lambda :evento_arma(turn,player),
+                lambda :evento_xp(player)
+            ]
+        )
+
+        evento()
+
 
 
 turn = 1
@@ -50,6 +83,8 @@ while True:
             [bold]Vez do jogador {playerAtual.nome} [/]
 
             HP: {playerAtual.hp}
+            Level: {playerAtual.level}
+            XP: {playerAtual.xp}
             Gold: {playerAtual.gold}
             Danobase: {playerAtual.danobase}
             
@@ -105,7 +140,24 @@ while True:
     if qtd <= 1:
         break
     loja.clear()
+    evento_aletorio(qtd, player_list)
     turn += 1
     loja = creatShop(turn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

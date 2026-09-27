@@ -5,7 +5,7 @@ from Player.item import Item
 
 
 class Monstro:
-   def __init__(self,nome,hp,damage,defesa,nivel,raridade):
+   def __init__(self,nome,hp,damage,defesa,nivel,raridade,xp):
     self.nome = nome
     self.hp = hp
     self.damage = damage
@@ -13,6 +13,7 @@ class Monstro:
     self.nivel = nivel
     self.raridade = raridade
     self.drop : Item | None = None
+    self.xp = xp
 
 
 def criarMonstro(turn,PlayerAtual):
@@ -45,11 +46,19 @@ def criarMonstro(turn,PlayerAtual):
     defesa = random.randint(turn, int(turn * multiplicador[raridade]))
     nivel = random.randint(turn, int(turn * multiplicador[raridade]))
     damage = random.randint(turn, int(turn * multiplicador[raridade]))
+    xp = xpMonstro[raridade] * nivel
+
 
     drop = None
 
-    return Monstro(nome,hp,damage,defesa,nivel,drop)
+    return Monstro(nome,hp,damage,defesa,nivel,drop,xp)
 
+xpMonstro = {
+    "Comum": 10,
+    "Raro": 15,
+    "Épico": 20,
+    "Chefe": 45,
+}
 
 monstros_comuns = [
     "Goblin",
